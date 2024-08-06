@@ -1,4 +1,4 @@
-package com.dddryinside.Heaven;
+package com.dddryinside;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
