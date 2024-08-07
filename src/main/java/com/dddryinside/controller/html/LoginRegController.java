@@ -1,4 +1,4 @@
-package com.dddryinside.controller;
+package com.dddryinside.controller.html;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
