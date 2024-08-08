@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .profile-sidebar {
+            width: 300px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-name {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .username {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .about {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+        }
+        .links {
+            text-align: center;
+        }
+        .links a {
+            display: block;
+            color: #007BFF;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+        .photo-gallery {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            box-sizing: border-box;
+        }
+        .photo-gallery img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-sidebar">
+        <div class="profile-picture">
+            <img src="profile-pic.jpg" alt="Profile Picture">
+        </div>
+        <div class="profile-name">Имя Фамилия</div>
+        <div class="username" th:text="${user.username}">@username</div>
+        <div class="about">
+            Здесь будет небольшое описание пользователя. 
+            Пользователь может рассказать о себе, своих увлечениях и интересах.
+        </div>
+        <div class="links">
+            <a href="#">Ссылка 1</a>
+            <a href="#">Ссылка 2</a>
+            <a href="#">Ссылка 3</a>
+        </div>
+    </div>
+    <div class="photo-gallery">
+        <img src="https://masterpiecer-images.s3.yandex.net/c352b1b9801c11ee9607720ccb3e265f:upscaled" alt="Photo 1">
+        <img src="https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg" alt="Photo 2">
+        <img src="photo3.jpg" alt="Photo 3">
+        <img src="photo4.jpg" alt="Photo 4">
+        <img src="photo5.jpg" alt="Photo 5">
+        <img src="photo6.jpg" alt="Photo 6">
+    </div>
+</body>
+</html>

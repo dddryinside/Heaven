@@ -1,4 +1,4 @@
-package com.dddryinside.controller;
+package com.dddryinside.controller.rest;
 
 import com.dddryinside.DTO.LoginRequest;
 import com.dddryinside.DTO.RegistrationRequest;
@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginRegRest {
     @Autowired
     private UserService userService;
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok("Success!");
-    }
 
     @PostMapping("/registration")
     public ResponseEntity<String> registration(@RequestBody RegistrationRequest request) {
