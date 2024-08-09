@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             margin: 0;
             padding: 0;
@@ -14,7 +15,7 @@
         .profile-sidebar {
             width: 300px;
             padding: 20px;
-            background-color: #f5f5f5;
+    
             border-right: 1px solid #ddd;
             height: 100vh;
             box-sizing: border-box;
@@ -54,7 +55,7 @@
         }
         .links a {
             display: block;
-            color: #007BFF;
+            color: #4070f4;
             text-decoration: none;
             margin: 5px 0;
         }
@@ -79,11 +80,10 @@
         <div class="profile-picture">
             <img src="profile-pic.jpg" alt="Profile Picture">
         </div>
-        <div class="profile-name">Имя Фамилия</div>
-        <div class="username" th:text="${user.username}">@username</div>
+        <div class="profile-name" th:text="${user.username}"></div>
+        <div class="username" th:text="${user.username}"></div>
         <div class="about">
-            Здесь будет небольшое описание пользователя. 
-            Пользователь может рассказать о себе, своих увлечениях и интересах.
+            <p>About yourself...</p>
         </div>
         <div class="links">
             <a href="#">Ссылка 1</a>
@@ -92,12 +92,9 @@
         </div>
     </div>
     <div class="photo-gallery">
-        <img src="https://masterpiecer-images.s3.yandex.net/c352b1b9801c11ee9607720ccb3e265f:upscaled" alt="Photo 1">
-        <img src="https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg" alt="Photo 2">
-        <img src="photo3.jpg" alt="Photo 3">
-        <img src="photo4.jpg" alt="Photo 4">
-        <img src="photo5.jpg" alt="Photo 5">
-        <img src="photo6.jpg" alt="Photo 6">
+        <img th:each="photo : ${photoGallery}"
+             th:src="@{${photo.url}}"
+             alt="Photo">
     </div>
 </body>
 </html>

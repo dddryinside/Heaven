@@ -1,6 +1,5 @@
 package com.dddryinside.config;
 
-import com.dddryinside.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/registration", "/static/**").permitAll();
+                    registry.requestMatchers("/registration", "/static/**", "/api/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .formLogin((form) -> form

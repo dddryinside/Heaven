@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Image</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <header>Add New Image</header>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="field">
+                    <input type="text" id="image-title" name="title" placeholder="Enter image title" required>
+                </div>
+                <div class="field">
+                    <textarea id="image-description" name="description" placeholder="Enter image description" required></textarea>
+                </div>
+                <div class="field">
+                    <input type="file" id="image-file" name="image" accept="image/*" required>
+                    <label for="image-file">Choose Image</label>
+                    <div class="file-name" id="file-name">No file chosen</div>
+                </div>
+                <div class="field">
+                    <button type="submit">Upload Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('image-file');
+        const fileNameDisplay = document.getElementById('file-name');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+            }
+        });
+
+        function uploadImage() {
+            const form = document.getElementById('image-form');
+            const formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Image uploaded successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to upload image.');
+            });
+        }
+    </script>
+</body>
+</html>

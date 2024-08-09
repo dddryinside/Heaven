@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Image</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <header>Add New Image</header>
+            <form id="image-form" enctype="multipart/form-data">
+                <div class="field">
+                    <input type="text" id="image-title" name="title" placeholder="Enter image title" required>
+                </div>
+                <div class="field">
+                    <textarea id="image-description" name="description" placeholder="Enter image description" required></textarea>
+                </div>
+          
+                <div class="field">
+                    <input type="file" id="image-file" name="image" accept="image/*" required>
+                    <label for="image-file">Choose Image</label>
+                    <div class="file-name" id="file-name">No file chosen</div>
+                </div>
+                <div class="field">
+                    <button type="button" onclick="uploadImage()">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const fileInput = document.getElementById('image-file');
+        const fileNameDisplay = document.getElementById('file-name');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+            }
+        });
+        
+        function uploadImage() {
+            const form = document.getElementById('image-form');
+            const formData = new FormData(form);
+
+            axios.post('/api/images/upload', formData)
+                .then(response => {
+                    window.location.href = '/home';
+                })
+                .catch(error => {
+                    console.log(error)
+                    window.location.href = '/home';
+                });
+        }
+    </script>
+</body>
+</html>

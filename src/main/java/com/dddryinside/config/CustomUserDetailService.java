@@ -1,4 +1,4 @@
-package com.dddryinside.service;
+package com.dddryinside.config;
 
 import com.dddryinside.model.User;
 import com.dddryinside.repository.UserRepository;
