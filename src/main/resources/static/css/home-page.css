@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #4070f4;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+}
+
+.profile-sidebar {
+    width: 300px;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.username {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.about {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.links {
+    text-align: center;
+}
+
+.links a {
+    display: block;
+    color: #4070f4;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+button{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 6px;
+    padding: 10px;
+    color: #fff;
+    background-color: #4070f4;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #016dcb;
+}
+
+.photo-gallery {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Позволяет изображениями переходить на новую строку при недостатке места */
+    gap: 40px; /* Устанавливает расстояние между изображениями */
+    justify-content: center; /* Центрирует изображения, если их недостаточно для полной строки */
+    box-sizing: border-box;
+}
+
+.photo-gallery img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.photo-gallery img {
+    transition: filter 0.3s ease; /* Плавный переход */
+}
+
+.photo-gallery img:hover {
+    filter: brightness(70%); /* Затемнение картинки */
+}
+

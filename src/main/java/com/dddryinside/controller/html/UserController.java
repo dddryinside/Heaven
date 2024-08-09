@@ -28,4 +28,12 @@ public class UserController {
 
         return "user-page";
     }
+
+    @GetMapping("/edit/profile")
+    public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        String username = userDetails.getUsername();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        model.addAttribute(user);
+        return "edit-profile";
+    }
 }

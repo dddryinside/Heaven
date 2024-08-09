@@ -9,4 +9,9 @@ public class ImageController {
     public String upload() {
         return "upload-image";
     }
+
+    @GetMapping("/uploading")
+    public String uploading() {
+        return "uploading";
+    }
 }
