@@ -9,6 +9,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/js-file-download@0.4.12/file-download.min.js"></script>
 </head>
 <body>
     <th:block th:replace="~{fragments/header :: header}"></th:block>
@@ -23,9 +25,13 @@
                         <i class="bi bi-zoom-in"></i> View Full Size
                     </button>
 
-                    <button class="download">
-                        <i class="bi bi-download"></i> Download
-                    </button>
+   
+                    <a th:href="${#strings.replace(image.url, '/upload/', '/upload/fl_attachment/')}" download>
+                        <button class="download-button">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </a>                                    
+ 
 
                     <button class="like">
                         <i class="bi bi-heart"></i> Like
@@ -68,6 +74,13 @@
         function openFullSize(url) {
             window.location.href=url;
         }
+
+        function downloadImage(url) {
+            new CloudinaryImage("docs/flower_shop.jpg")
+                .delivery(format(auto()))
+                .addFlag(attachment("pretty_flower"));
+        }
+
     </script>
 </body>
 </html>
