@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/header.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/image-page.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <th:block th:replace="~{fragments/header :: header}"></th:block>
+
+    <div class="container">
+        <div class="image-card">
+            <img th:src="@{${image.url}}" alt="Uploaded Image">
+            <div class="image-info">
+                <div class="title" th:text="@{${image.title}}">Image Title</div>
+                <div class="actions-container">
+                    <button th:attr="onclick=|openFullSize('${image.url}')|">
+                        <i class="bi bi-zoom-in"></i> View Full Size
+                    </button>
+
+                    <button class="download">
+                        <i class="bi bi-download"></i> Download
+                    </button>
+
+                    <button class="like">
+                        <i class="bi bi-heart"></i> Like
+                    </button>
+                </div>
+
+                <div class="description" id="description" th:text="@{${image.description}}"></div>
+
+                <a id="toggle-description" class="toggle-description" onclick="toggleDescription()">Read more</a>
+            
+
+                <div class="add-comment">
+                    <input type="text" placeholder="Add a comment...">
+                    <button>Submit</button>
+                </div>
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    <div class="comment">
+                        <p><strong>User1:</strong> Amazing artwork!</p>
+                    </div>
+                    <!-- Другие комментарии -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDescription() {
+            var description = document.getElementById('description');
+            var toggleButton = document.getElementById('toggle-description');
+            if (description.classList.contains('expanded')) {
+                description.classList.remove('expanded');
+                toggleButton.innerText = 'Read more';
+            } else {
+                description.classList.add('expanded');
+                toggleButton.innerText = 'Read less';
+            }
+        }
+
+        function openFullSize(url) {
+            window.location.href=url;
+        }
+    </script>
+</body>
+</html>

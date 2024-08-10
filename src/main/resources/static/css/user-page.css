@@ -9,32 +9,6 @@ body {
     min-height: 100vh;
 }
 
-header {
-    background-color: #4070f4;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 24px;
-}
-
-header nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    font-weight: 500;
-}
-
-header nav a:hover {
-    text-decoration: underline;
-}
-
 .main-content {
     display: flex;
     flex: 1;
@@ -115,24 +89,54 @@ button:hover{
     flex: 1;
     padding: 20px;
     display: flex;
-    flex-wrap: wrap; /* Позволяет изображениями переходить на новую строку при недостатке места */
-    gap: 40px; /* Устанавливает расстояние между изображениями */
-    justify-content: center; /* Центрирует изображения, если их недостаточно для полной строки */
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
     box-sizing: border-box;
 }
 
-.photo-gallery img {
+.photo-gallery .photo-item {
+    position: relative;
     width: 320px;
     height: 320px;
-    object-fit: cover;
+    overflow: hidden;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .photo-gallery img {
-    transition: filter 0.3s ease; /* Плавный переход */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
 }
 
-.photo-gallery img:hover {
-    filter: brightness(70%); /* Затемнение картинки */
+.photo-gallery .photo-item:hover img {
+    filter: brightness(70%);
 }
 
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+ 
+    color: white;
+    text-align: center;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-item:hover .photo-overlay {
+    opacity: 1;
+}
+
+.photo-overlay a {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
