@@ -124,3 +124,7 @@
 .add-comment button:hover {
     background-color: #016dcb;
 }
+
+.bi-heart-fill {
+    color: red;
+}

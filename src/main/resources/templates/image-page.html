@@ -33,9 +33,11 @@
                     </a>                                    
  
 
-                    <button class="like">
-                        <i class="bi bi-heart"></i> Like
-                    </button>
+                    <button class="like-button" th:attr="onclick=|toggleLike('${image.id}')|">
+                        <i id="icon" class="bi bi-heart"></i>
+                        <span> Like </span>
+                        <span id="likes-amount" th:text="${image.likedByUsers.size()}">0</span>
+                    </button>                    
                 </div>
 
                 <div class="description" id="description" th:text="@{${image.description}}"></div>
@@ -58,7 +60,13 @@
         </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
+        var isLiked = /*[[${isLikedByCurrentUser}]]*/ false;
+        if (isLiked) {
+            var icon = document.getElementById("icon");
+            icon.classList.replace('bi-heart', 'bi-heart-fill');
+        }
+
         function toggleDescription() {
             var description = document.getElementById('description');
             var toggleButton = document.getElementById('toggle-description');
@@ -72,15 +80,70 @@
         }
 
         function openFullSize(url) {
-            window.location.href=url;
+            window.location.href = url;
         }
 
-        function downloadImage(url) {
-            new CloudinaryImage("docs/flower_shop.jpg")
-                .delivery(format(auto()))
-                .addFlag(attachment("pretty_flower"));
+        function toggleLike(imageId) {
+            var likeButton = document.querySelector('.like-button');
+            var likeUrl = `/api/images/like/${imageId}`;
+            var unlikeUrl = `/api/images/unlike/${imageId}`;
+
+            if (isLiked) {
+                fetch(unlikeUrl, {
+                    method: 'DELETE', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        decrementLikes();
+                        isLiked = false; 
+                    } else {
+                        console.error('Failed to unlike the image');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                fetch(likeUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        incrementLikes();
+                        isLiked = true; 
+                    } else {
+                        console.error('Failed to like the image');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
         }
 
+        function incrementLikes() {
+            var icon = document.getElementById("icon");
+            icon.classList.replace('bi-heart', 'bi-heart-fill');
+
+            var likesElement = document.getElementById('likes-amount');
+            var currentLikes = parseInt(likesElement.textContent);
+            likesElement.textContent = currentLikes + 1;
+        }
+
+        function decrementLikes() {
+            var icon = document.getElementById("icon");
+            icon.classList.replace('bi-heart-fill', 'bi-heart');
+
+            var likesElement = document.getElementById('likes-amount');
+            var currentLikes = parseInt(likesElement.textContent);
+            likesElement.textContent = currentLikes - 1;
+        }
     </script>
 </body>
 </html>

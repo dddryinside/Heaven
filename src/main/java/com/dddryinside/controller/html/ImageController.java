@@ -1,20 +1,21 @@
 package com.dddryinside.controller.html;
 
 import com.dddryinside.model.Image;
-import com.dddryinside.repository.ImageRepository;
+import com.dddryinside.service.ImageService;
+import com.dddryinside.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Optional;
-
 @Controller
 public class ImageController {
-    private final ImageRepository imageRepository;
+    private final ImageService imageService;
+    private final UserService userService;
 
-    public ImageController(ImageRepository imageRepository) {
-        this.imageRepository = imageRepository;
+    public ImageController(ImageService imageService, UserService userService) {
+        this.imageService = imageService;
+        this.userService = userService;
     }
 
     @GetMapping("/upload")
@@ -23,9 +24,11 @@ public class ImageController {
     }
 
     @GetMapping("/image/{id}")
-    public String image(@PathVariable Integer id, Model model) {
-        Optional<Image> imageOptional = imageRepository.findById(Long.valueOf(id));
-        model.addAttribute("image", imageOptional.orElse(null));
+    public String image(@PathVariable Long id, Model model) {
+        Image image = imageService.getImageById(id);
+        boolean isLikedByCurrentUser = image.isLikedByCurrentUser(userService.getCurrentUser());
+        model.addAttribute("image", image);
+        model.addAttribute("isLikedByCurrentUser", isLikedByCurrentUser);
         return "image-page";
     }
 }

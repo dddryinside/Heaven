@@ -8,7 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -28,6 +30,10 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String email;
+
+    @ManyToMany(mappedBy = "likedByUsers")
+    private Set<Image> likedImages = new HashSet<>();
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

@@ -1,11 +1,9 @@
 package com.dddryinside.controller.api;
 
 import com.dddryinside.service.ImageService;
+import com.dddryinside.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -30,6 +28,18 @@ public class ImageAPI {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("Error uploading image: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/like/{imageId}")
+    public ResponseEntity<Void> like(@PathVariable Long imageId) {
+        imageService.like(imageId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("unlike/{imageId}")
+    public ResponseEntity<Void> unlikeImage(@PathVariable Long imageId) {
+        imageService.unlike(imageId);
+        return ResponseEntity.ok().build();
     }
 }
 
