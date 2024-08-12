@@ -1,14 +1,12 @@
 package com.dddryinside.controller.api;
 
-import com.dddryinside.DTO.RegistrationRequest;
-import com.dddryinside.DTO.UpdateProfileRequest;
 import com.dddryinside.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserAPI {
     private final UserService userService;
 
@@ -16,22 +14,29 @@ public class UserAPI {
         this.userService = userService;
     }
 
-    @PostMapping("/registration")
-    public ResponseEntity<String> registration(@RequestBody RegistrationRequest request) {
-        userService.registerUser(request);
-        return ResponseEntity.ok("Success!");
+    @GetMapping("/registrate")
+    public ResponseEntity<Void> registrateUser(@RequestParam("username") String username,
+                                               @RequestParam("email") String email,
+                                               @RequestParam("password") String password) {
+        try {
+            userService.registerUser(username, email, password);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping("/update")
-    public String updateUser(@RequestParam("name") String name,
+    public ResponseEntity<Void> updateUser(@RequestParam("name") String name,
                              @RequestParam("description") String description,
                              @RequestParam("avatar") MultipartFile avatar) {
 
         try {
-            userService.updateProfile(name, description);
-            return "redirect:/home";
+            userService.updateProfile(name, description, avatar);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return "redirect:/profile/edit";
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

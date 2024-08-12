@@ -23,6 +23,10 @@ public class Image {
     private String description;
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @ManyToMany
     @JoinTable(
             name = "user_image_likes",

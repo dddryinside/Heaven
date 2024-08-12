@@ -4,13 +4,11 @@ import com.dddryinside.DTO.CommentView;
 import com.dddryinside.DTO.PostCommentRequest;
 import com.dddryinside.model.Comment;
 import com.dddryinside.repository.CommentRepository;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -38,20 +36,6 @@ public class CommentService {
     }
 
     public List<CommentView> getComments(Long imageId, int offset, int limit) {
-        // Сначала подсчитываем общее количество комментариев для изображения
-/*        long totalComments = commentRepository.countByImageId(imageId);
-
-        // Рассчитываем количество страниц (учитываем размер страницы `limit`)
-        int totalPages = (int) Math.ceil((double) totalComments / limit);
-
-        // Рассчитываем номер страницы, начиная с конца
-        int pageNumber = totalPages - 1 - (offset / limit);
-        if (pageNumber < 0) {
-            pageNumber = 0;
-        }*/
-
-        /*List<Comment> comments = commentRepository.findByImageId(imageId, PageRequest.of(pageNumber, limit)).getContent();*/
-
         List<Comment> comments = commentRepository.findByImageId(
                 imageId,
                 PageRequest.of(offset / limit, limit, Sort.by(Sort.Direction.DESC, "id"))

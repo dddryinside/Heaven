@@ -9,8 +9,7 @@ import com.dddryinside.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,17 +41,9 @@ public class ImageService {
         Image image = new Image();
         image.setTitle(title);
         image.setDescription(description);
-        image.setUrl(uploadImageFile(file));
+        image.setUrl( ImageUploader.uploadImageFile(file));
+        image.setUser(userService.getCurrentUser());
         imageRepository.save(image);
-    }
-
-    private String uploadImageFile(MultipartFile file) throws IOException {
-        try {
-            Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
-            return uploadResult.get("url").toString();
-        } catch (IOException e) {
-            throw new IOException("Ошибка при загрузке файла на Cloudinary", e);
-        }
     }
 
     public void like(Long imageId) {
@@ -77,5 +68,9 @@ public class ImageService {
 
         userRepository.save(user);
         imageRepository.save(image);
+    }
+
+    public List<Image> getImagesByUser(User user) {
+        return imageRepository.findByUser(user);
     }
 }

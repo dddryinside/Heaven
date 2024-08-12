@@ -11,17 +11,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
 @Service
 public class UserService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -33,17 +35,24 @@ public class UserService {
         return userOptional.orElse(null);
     }
 
-    public void registerUser(RegistrationRequest request) {
+    public void registerUser(String username, String email, String password) {
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
         user.setRole(Role.USER);
         userRepository.save(user);
     }
 
-    public void updateProfile(String name, String about) {
+    public void updateProfile(String name, String about, MultipartFile avatar) throws Exception {
         User user = getCurrentUser();
+
+        if (!avatar.isEmpty()) {
+            String avatarUrl = ImageUploader.uploadImageFile(avatar);
+            System.out.println(avatarUrl);
+            user.setAvatarPhotoUrl(avatarUrl);
+        }
+
         user.setName(name);
         user.setAbout(about);
         userRepository.save(user);

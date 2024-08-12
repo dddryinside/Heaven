@@ -31,6 +31,9 @@ public class User implements UserDetails {
     private String password;
     private String email;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Image> images;
+
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<Image> likedImages = new HashSet<>();
 

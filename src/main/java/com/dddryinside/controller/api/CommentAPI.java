@@ -22,11 +22,6 @@ public class CommentAPI {
         commentService.save(postCommentRequest);
     }
 
-    @GetMapping("/amount")
-    public Integer getCommentsAmount(@RequestParam("imageId") Long imageId) {
-        return commentService.getCommentsAmount(imageId);
-    }
-
     @GetMapping("/get-comments")
     public List<CommentView> getComments(@RequestParam("imageId") Long imageId,
                                          @RequestParam("offset") int offset,
