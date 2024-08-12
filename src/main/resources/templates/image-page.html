@@ -19,19 +19,17 @@
         <div class="image-card">
             <img th:src="@{${image.url}}" alt="Uploaded Image">
             <div class="image-info">
-                <div class="title" th:text="@{${image.title}}">Image Title</div>
+                <div class="title" th:text="${image.title}">Image Title</div>
                 <div class="actions-container">
                     <button th:attr="onclick=|openFullSize('${image.url}')|">
                         <i class="bi bi-zoom-in"></i> View Full Size
                     </button>
-
 
                     <a th:href="${#strings.replace(image.url, '/upload/', '/upload/fl_attachment/')}" download>
                         <button class="download-button">
                             <i class="bi bi-download"></i> Download
                         </button>
                     </a>
-
 
                     <button class="like-button" th:attr="onclick=|toggleLike('${image.id}')|">
                         <i id="icon" class="bi bi-heart"></i>
@@ -40,25 +38,62 @@
                     </button>
                 </div>
 
-                <div class="description" id="description" th:text="@{${image.description}}"></div>
+                <div class="description" id="description" th:text="${image.description}"></div>
 
                 <a id="toggle-description" class="toggle-description" onclick="toggleDescription()">Read more</a>
-
 
                 <div class="add-comment">
                     <input type="text" id="comment-input" placeholder="Add a comment...">
                     <button id="submit-comment-button">Submit</button>
                 </div>
                 
-                <div class="comments-section" th:if="${not #lists.isEmpty(comments)}">
+                <div class="comments-section">
                     <h3>Comments</h3>
-                    <div class="comment" th:each="comment : ${comments}">
-                      <p><strong th:text="${comment.user.username} + ': '"></strong> <span th:text="${comment.text}"></span></p>
+                    <div id="comments-container">
+                        <!-- Комментарии будут загружаться сюда -->
                     </div>
+                    <a id="load-more-button" class="toggle-description" onclick="loadMoreComments()">Show more</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        var offset = 0;
+        var limit = 10;
+        var imageId = /*[[${image.id}]]*/ [];
+
+        function loadComments() {
+            fetch(`/api/comments/get-comments?imageId=${imageId}&offset=${offset}&limit=${limit}`)
+                .then(response => response.json())
+                .then(comments => {
+                    var commentsContainer = document.getElementById('comments-container');
+                    console.log(comments.length);
+                    comments.forEach(comment => {
+                        var commentElement = document.createElement('div');
+                        commentElement.className = 'comment';
+                        commentElement.innerHTML = `<p><strong>${comment.username}:</strong> ${comment.text}</p>`;
+                        commentsContainer.appendChild(commentElement);
+                    });
+                    offset += limit;
+
+                    // Если вернулось меньше комментариев, чем лимит, скрыть кнопку
+                    if (comments.length < limit) {
+                        document.getElementById('load-more-button').style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error loading comments:', error));
+        }
+
+        function loadMoreComments() {
+            loadComments();
+        }
+
+        // Загрузить первые 10 комментариев при загрузке страницы
+        window.onload = function() {
+            loadComments();
+        };
+    </script>
 
     <script th:inline="javascript">
         document.getElementById('submit-comment-button').addEventListener('click', function() {
@@ -69,7 +104,7 @@
                 imageId: /*[[${image.id}]]*/ []
             };
 
-            // Send the POST request to the server
+            // Отправляем POST запрос на сервер
             fetch('/api/comments/post-comment', {
                 method: 'POST',
                 headers: {
@@ -114,7 +149,6 @@
         }
 
         function toggleLike(imageId) {
-            var likeButton = document.querySelector('.like-button');
             var likeUrl = `/api/images/like/${imageId}`;
             var unlikeUrl = `/api/images/unlike/${imageId}`;
 

@@ -1,8 +1,12 @@
 package com.dddryinside.controller.api;
 
+import com.dddryinside.DTO.CommentView;
 import com.dddryinside.DTO.PostCommentRequest;
+import com.dddryinside.model.Comment;
 import com.dddryinside.service.CommentService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -16,5 +20,17 @@ public class CommentAPI {
     @PostMapping("/post-comment")
     public void postComment(@RequestBody PostCommentRequest postCommentRequest) {
         commentService.save(postCommentRequest);
+    }
+
+    @GetMapping("/amount")
+    public Integer getCommentsAmount(@RequestParam("imageId") Long imageId) {
+        return commentService.getCommentsAmount(imageId);
+    }
+
+    @GetMapping("/get-comments")
+    public List<CommentView> getComments(@RequestParam("imageId") Long imageId,
+                                         @RequestParam("offset") int offset,
+                                         @RequestParam("limit") int limit) {
+        return commentService.getComments(imageId, offset, limit);
     }
 }

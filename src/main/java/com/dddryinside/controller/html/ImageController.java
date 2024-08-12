@@ -27,7 +27,6 @@ public class ImageController {
     public String image(@PathVariable Long id, Model model) {
         Image image = imageService.getImageById(id);
         model.addAttribute("image", image);
-        model.addAttribute("comments", image.getComments());
         model.addAttribute("isLikedByCurrentUser",
                 image.isLikedByCurrentUser(userService.getCurrentUser()));
         return "image-page";
