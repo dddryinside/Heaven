@@ -26,9 +26,10 @@ public class ImageController {
     @GetMapping("/image/{id}")
     public String image(@PathVariable Long id, Model model) {
         Image image = imageService.getImageById(id);
-        boolean isLikedByCurrentUser = image.isLikedByCurrentUser(userService.getCurrentUser());
         model.addAttribute("image", image);
-        model.addAttribute("isLikedByCurrentUser", isLikedByCurrentUser);
+        model.addAttribute("comments", image.getComments());
+        model.addAttribute("isLikedByCurrentUser",
+                image.isLikedByCurrentUser(userService.getCurrentUser()));
         return "image-page";
     }
 }

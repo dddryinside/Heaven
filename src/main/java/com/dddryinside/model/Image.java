@@ -34,4 +34,7 @@ public class Image {
     public boolean isLikedByCurrentUser(User currentUser) {
         return likedByUsers.contains(currentUser);
     }
+
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments;
 }

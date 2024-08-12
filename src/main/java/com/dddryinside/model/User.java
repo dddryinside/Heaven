@@ -34,6 +34,9 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "likedByUsers")
     private Set<Image> likedImages = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

@@ -25,40 +25,70 @@
                         <i class="bi bi-zoom-in"></i> View Full Size
                     </button>
 
-   
+
                     <a th:href="${#strings.replace(image.url, '/upload/', '/upload/fl_attachment/')}" download>
                         <button class="download-button">
                             <i class="bi bi-download"></i> Download
                         </button>
-                    </a>                                    
- 
+                    </a>
+
 
                     <button class="like-button" th:attr="onclick=|toggleLike('${image.id}')|">
                         <i id="icon" class="bi bi-heart"></i>
                         <span> Like </span>
                         <span id="likes-amount" th:text="${image.likedByUsers.size()}">0</span>
-                    </button>                    
+                    </button>
                 </div>
 
                 <div class="description" id="description" th:text="@{${image.description}}"></div>
 
                 <a id="toggle-description" class="toggle-description" onclick="toggleDescription()">Read more</a>
-            
+
 
                 <div class="add-comment">
-                    <input type="text" placeholder="Add a comment...">
-                    <button>Submit</button>
+                    <input type="text" id="comment-input" placeholder="Add a comment...">
+                    <button id="submit-comment-button">Submit</button>
                 </div>
-                <div class="comments-section">
+                
+                <div class="comments-section" th:if="${not #lists.isEmpty(comments)}">
                     <h3>Comments</h3>
-                    <div class="comment">
-                        <p><strong>User1:</strong> Amazing artwork!</p>
+                    <div class="comment" th:each="comment : ${comments}">
+                      <p><strong th:text="${comment.user.username} + ': '"></strong> <span th:text="${comment.text}"></span></p>
                     </div>
-                    <!-- Другие комментарии -->
                 </div>
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        document.getElementById('submit-comment-button').addEventListener('click', function() {
+            var commentText = document.getElementById('comment-input').value;
+
+            var commentData = {
+                text: commentText,
+                imageId: /*[[${image.id}]]*/ []
+            };
+
+            // Send the POST request to the server
+            fetch('/api/comments/post-comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(commentData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Failed to post the comment');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 
     <script th:inline="javascript">
         var isLiked = /*[[${isLikedByCurrentUser}]]*/ false;
@@ -90,7 +120,7 @@
 
             if (isLiked) {
                 fetch(unlikeUrl, {
-                    method: 'DELETE', 
+                    method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -98,7 +128,7 @@
                 .then(response => {
                     if (response.ok) {
                         decrementLikes();
-                        isLiked = false; 
+                        isLiked = false;
                     } else {
                         console.error('Failed to unlike the image');
                     }
@@ -116,7 +146,7 @@
                 .then(response => {
                     if (response.ok) {
                         incrementLikes();
-                        isLiked = true; 
+                        isLiked = true;
                     } else {
                         console.error('Failed to like the image');
                     }
