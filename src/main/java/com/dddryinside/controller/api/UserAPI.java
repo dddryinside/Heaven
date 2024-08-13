@@ -14,7 +14,7 @@ public class UserAPI {
         this.userService = userService;
     }
 
-    @GetMapping("/registrate")
+    @PostMapping("/registrate")
     public ResponseEntity<Void> registrateUser(@RequestParam("username") String username,
                                                @RequestParam("email") String email,
                                                @RequestParam("password") String password) {

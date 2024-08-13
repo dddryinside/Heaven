@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                     registry.anyRequest().authenticated();
                 })
                 .formLogin((form) -> form
-                        .loginPage("/login")
+                        .loginPage("/security")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
