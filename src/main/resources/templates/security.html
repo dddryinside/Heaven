@@ -16,9 +16,9 @@
         <div class="form-container">
             <div class="slide-controls">
                 <input type="radio" name="slide" id="login" checked>
-                <input type="radio" name="slide" id="signup-radio">
+                <input type="radio" name="slide" id="signup">
                 <label for="login" class="slide login">Login</label>
-                <label for="signup-radio" class="slide signup">Signup</label>
+                <label for="signup" class="slide signup">Signup</label>
                 <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
@@ -32,9 +32,6 @@
                     <div class="field btn">
                         <div class="btn-layer"></div>
                         <input type="submit" value="Login">
-                    </div>
-                    <div class="signup-link">
-                        Not a member? <a href="#">Signup now</a>
                     </div>
                 </form>
 
@@ -61,26 +58,20 @@
     </div>
 
     <script>
-        const loginText = document.querySelector(".title-text .login");
-        const loginForm = document.querySelector("form.login");
-        const loginBtn = document.querySelector("label.login");
-        const signupBtn = document.querySelector("label.signup");
-        const signupLink = document.querySelector("form .signup-link a");
+         const loginText = document.querySelector(".title-text .login");
+         const loginForm = document.querySelector("form.login");
+         const loginBtn = document.querySelector("label.login");
+         const signupBtn = document.querySelector("label.signup");
 
-        signupBtn.onclick = () => {
-            loginForm.style.marginLeft = "-50%";
-            loginText.style.marginLeft = "-50%";
-        };
+         signupBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "-50%";
+           loginText.style.marginLeft = "-50%";
+         });
 
-        loginBtn.onclick = () => {
-            loginForm.style.marginLeft = "0%";
-            loginText.style.marginLeft = "0%";
-        };
-
-        signupLink.onclick = () => {
-            signupBtn.click();
-            return false;
-        };
+         loginBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "0%";
+           loginText.style.marginLeft = "0%";
+         });
 
         $(document).ready(function () {
           $("#signup-form").submit(function (event) {
@@ -102,13 +93,12 @@
               formData.append("email", email);
               formData.append("password", password);
 
-              // Отправляем запрос с использованием метода POST
               fetch('/api/users/registrate', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/x-www-form-urlencoded'
                   },
-                  body: formData.toString()  // Передаем данные в формате URL-encoded
+                  body: formData.toString() 
               })
               .then(response => {
                   if (response.ok) {
