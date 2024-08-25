@@ -1,11 +1,8 @@
 package com.dddryinside.service;
 
-import com.dddryinside.DTO.RegistrationRequest;
-import com.dddryinside.DTO.UpdateProfileRequest;
 import com.dddryinside.model.User;
 import com.dddryinside.repository.UserRepository;
 import com.dddryinside.value.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.dddryinside.DTO;
+package com.dddryinside.requests;
 
 import lombok.Data;
 import lombok.Getter;

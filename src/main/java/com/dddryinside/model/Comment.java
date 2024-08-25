@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -17,6 +19,8 @@ public class Comment {
     @Column(nullable = false, updatable = false)
     private Long id;
     private String text;
+    private LocalDateTime publicationDateTime;
+    private boolean isUpdated;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
