@@ -19,8 +19,8 @@ public class Comment {
     @Column(nullable = false, updatable = false)
     private Long id;
     private String text;
-    private LocalDateTime publicationDateTime;
-    private boolean isUpdated;
+    private LocalDateTime postDateTime;
+    private LocalDateTime updateDateTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

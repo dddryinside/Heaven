@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ public class Image {
     private String title;
     private String description;
     private String url;
+    private LocalDateTime postDateTime;
+    private LocalDateTime updateDateTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

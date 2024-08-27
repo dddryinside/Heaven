@@ -23,12 +23,17 @@ public class ImageController {
         return "upload-image";
     }
 
-    @GetMapping("/image/{id}")
-    public String image(@PathVariable Long id, Model model) {
-        Image image = imageService.getImageById(id);
+/*    @GetMapping("/image/{id}")
+    public String image(@PathVariable Long imageId, Model model) {
+        try {
+            model.addAttribute("image", imageService.getImageResponse(imageId));
+        } catch (Exception e) {
+
+        }
+        Image image = imageService.getImageResponse(imageId);
         model.addAttribute("image", image);
         model.addAttribute("isLikedByCurrentUser",
                 image.isLikedByCurrentUser(userService.getCurrentUser()));
         return "image-page";
-    }
+    }*/
 }

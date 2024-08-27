@@ -14,19 +14,18 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final UserService userService;
-    private final ImageService imageService;
     private final ImageRepository imageRepository;
 
     public CommentService(CommentRepository commentRepository, UserService userService,
-                          ImageService imageService, ImageRepository imageRepository) {
+                          ImageRepository imageRepository) {
         this.commentRepository = commentRepository;
         this.userService = userService;
-        this.imageService = imageService;
         this.imageRepository = imageRepository;
     }
 
@@ -34,10 +33,17 @@ public class CommentService {
         try {
             Comment comment = new Comment();
             comment.setText(postCommentRequest.getText());
-            comment.setImage(imageService.getImageById(postCommentRequest.getImageId()));
+
+            Optional<Image> imageOptional = imageRepository.findById(postCommentRequest.getImageId());
+            if (imageOptional.isPresent()) {
+                comment.setImage(imageOptional.get());
+            } else {
+                throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, "Image not found");
+            }
+
             comment.setUser(userService.getCurrentUser());
-            comment.setUpdated(false);
-            comment.setPublicationDateTime(LocalDateTime.now());
+            comment.setPostDateTime(LocalDateTime.now());
+            comment.setUpdateDateTime(null);
             commentRepository.save(comment);
         } catch (Exception e) {
             throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to save comment");
@@ -58,7 +64,7 @@ public class CommentService {
 
         try {
             comment.setText(editCommentRequest.getNewCommentText());
-            comment.setUpdated(true);
+            comment.setUpdateDateTime(LocalDateTime.now());
             commentRepository.save(comment);
         } catch (Exception e) {
             throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to edit comment");
